@@ -1,5 +1,7 @@
 {% load static %}
 
+{% load extera_auth %}
+
 {% if user.is_authenticated %}
 
 <!DOCTYPE html>
@@ -1423,6 +1425,8 @@
                 </div>
               </li>
 
+              {% if request.user|has_group:"masteruser" %}
+
               <li class="nav-item">
                 <a
                   class="nav-link menu-link"
@@ -1470,6 +1474,8 @@
                   </ul>
                 </div>
               </li>
+
+              {% endif %}
 
               <li class="nav-item">
                 <a
@@ -1596,12 +1602,16 @@
                 </div>
               </li>
 
+              {% if request.user|has_group:"masteruser" %}
+
               <li class="nav-item">
                 <a href="{% url 'user_list' %}" class="nav-link menu-link">
                   <i class="bi bi-person-bounding-box"></i>
                   <span data-key="t-users-list">Users List</span>
                 </a>
               </li>
+
+              {% endif %}
 
               <li class="nav-item">
                 <a
@@ -1905,6 +1915,8 @@
           </div>
           <!-- Sidebar -->
         </div>
+
+        
 
         <div class="sidebar-background"></div>
       </div>

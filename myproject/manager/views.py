@@ -40,9 +40,16 @@ def user_delete(request, pk):
 
 def manager_group(request):
 
-    # Login Check Start
-    if not request.user.is_authenticated:
-        return redirect('mylogin')
+    # Login Check For Master User
+    perm = 0
+    for i in request.user.groups.all():
+        if i.name == 'masteruser' : perm = 1
+
+    if perm == 0:
+        error = "You are not alloweded."
+        return render(request,'back/error.html', {'error': error})
+
+
     # Login Check End
 
     # site = Main.objects.get(pk=2)
@@ -93,3 +100,79 @@ def manager_group_delete(request, name):
         return render(request,'back/error.html', {'error': error})
 
     return redirect(manager_group)
+
+
+def user_groups_show(request, pk):
+
+    # Login Check Start
+    if not request.user.is_authenticated:
+        return redirect('mylogin')
+    # Login Check End
+
+    manager = Manager.objects.get(pk=pk)
+    user = User.objects.get(username=manager.username)
+    groups_list = []
+    for i in user.groups.all():
+        groups_list.append(i.name)
+        print(i.name)
+
+    all_groups = Group.objects.all()
+
+    print(groups_list, "----------groups_list-------")
+
+    return render(request,'back/user-groups.html', {'groups_list': groups_list, 'all_groups': all_groups, 'pk': pk })
+
+def add_user_to_groups(request, pk):
+
+    # Login Check Start
+    if not request.user.is_authenticated:
+        return redirect('mylogin')
+    # Login Check End
+    if request.method == 'POST':
+        print("In Post-------Section---------")
+        gname = request.POST.get('gname')
+        group = Group.objects.get(name=gname)
+
+        manager = Manager.objects.get(pk=pk)
+        user = User.objects.get(username=manager.username)
+        user.groups.add(group)
+        print("done----------", pk)
+        return redirect('user_groups_show', pk=pk)
+    
+    if pk:
+        print(pk, "-----------In Pk section-------")
+        manager = Manager.objects.get(pk=pk)
+        user = User.objects.get(username=manager.username)
+        groups_list = []
+        for i in user.groups.all():
+            groups_list.append(i.name)
+            print(i.name)
+
+        all_groups = Group.objects.all()
+        return render(request, 'back/user-group-add.html', {'all_groups': all_groups, 'pk': pk})
+    
+
+def delete_user_from_groups(request, pk, name):
+
+    # Login Check Start
+    if not request.user.is_authenticated:
+        return redirect('mylogin')
+    # Login Check End
+
+    try:
+        manager = Manager.objects.get(pk=pk)
+        user = User.objects.get(username=manager.username)
+        group = Group.objects.get(name=name)
+        user.groups.remove(group)
+        if pk:
+            return redirect('user_groups_show', pk)
+    except:
+        error = "Something went Wrong."
+        return render(request,'back/error.html', {'error': error})
+
+
+    
+
+    
+    
+    
