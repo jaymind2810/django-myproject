@@ -1,0 +1,139 @@
+{% extends 'back/master.html' %}
+{% load static %}
+
+{% block headblock%}
+  <title> Setting | Home</title>
+
+  <!-- nouisliderribute css -->
+  <link
+    rel="stylesheet"
+    href="{% static 'back/assets/libs/nouislider/nouislider.min.css' %}"
+  />
+  <!-- gridjs css -->
+  <link rel="stylesheet" href="{% static 'back/assets/libs/gridjs/theme/mermaid.min.css' %}" />
+
+{% endblock %}
+
+
+{% block mainblock %}
+
+<div class="page-content">
+    <div class="container-fluid">
+      <!-- start page title -->
+      <div class="row">
+        <div class="col-12">
+          <div
+            class="page-title-box d-sm-flex align-items-center justify-content-between"
+          >
+            <h4 class="mb-sm-0">Setting</h4>
+
+            <div class="page-title-right">
+              <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item">
+                  <a href="javascript: void(0);">Site</a>
+                </li>
+                <li class="breadcrumb-item active">Setting</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end page title -->
+
+      <div class="row">
+        <div class="col-xxl-4">
+          <div class="card">
+            <div class="card-header">
+              <h6 class="card-title mb-0">Site Setting</h6>
+            </div>
+            <div class="card-body">
+              <form href="{% url 'site_setting' %}" method="post" enctype="multipart/form-data" class="" >
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-xxl-12 col-lg-6">
+                    <div class="mb-3">
+                      <label for="siteName" class="form-label">Site Name<span class="text-danger">*</span></label>
+                      <input type="text" class="form-control" name="name" id="name" value="{{ site.name }}" placeholder="Enter title" required/>
+                      <div class="invalid-feedback">
+                        Please enter a site title.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="tell" class="form-label">Tell</label>
+                    <input type="text" class="form-control" name="tell" id="tell" value="{{ site.tell }}" placeholder="Enter Tell"/>
+                    <div class="invalid-feedback">
+                      Please enter a Tell.
+                    </div>
+                  </div>
+                  <div class="col-xxl-12 col-lg-6">
+                    <div class="mb-3">
+                      <label for="About" class="form-label">About</label>
+                      <textarea
+                        class="form-control"
+                        id="about"
+                        name="about"
+                        value="{{ site.about }}"
+                        rows="3"
+                        placeholder="about"
+                        required></textarea>
+                      <div class="invalid-feedback">
+                        Please enter a About.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label" for="product-image">Site Image</label>
+                    <input type="file" class="form-control" id="myfile" name="myfile"
+                      placeholder="Enter product Image"/>
+                    <div class="invalid-feedback">
+                      Please enter a site Image.
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="link" class="form-label">Link</label>
+                    <input type="text" class="form-control" name="link" id="link" value="{{ site.link }}" placeholder="Enter Link"/>
+                    <div class="invalid-feedback">
+                      Please enter a Link.
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="text" class="form-control" name="email" id="email" value="{{ site.email }}" placeholder="Enter Email"/>
+                    <div class="invalid-feedback">
+                      Please enter a Email.
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" class="form-control" name="location" id="location" value="{{ site.location }}" placeholder="Enter Location"/>
+                    <div class="invalid-feedback">
+                      Please enter a Location.
+                    </div>
+                  </div>
+                  <div class="col-xxl-12">
+                    <div class="text-end">
+                      <button type="submit" class="btn btn-success">
+                        Submit
+                      </button>
+                    </div>
+                  </div>
+                </div>  
+              </form>
+            </div>
+          </div>
+          <!-- end card -->
+        </div>
+        <!--end col-->
+      </div>
+      <!--end row-->
+    </div>
+    <!-- container-fluid -->
+</div>
+
+{% endblock %}
+
+
+{% block footerblock %}
+
+{% endblock %}

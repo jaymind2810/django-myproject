@@ -1,0 +1,204 @@
+{% extends 'back/master.html' %}
+{% load static %}
+
+{% block headblock%}
+  <title> Categories | Home</title>
+
+  <!-- nouisliderribute css -->
+  <link
+    rel="stylesheet"
+    href="{% static 'back/assets/libs/nouislider/nouislider.min.css' %}"
+  />
+  <!-- gridjs css -->
+  <link rel="stylesheet" href="{% static 'back/assets/libs/gridjs/theme/mermaid.min.css' %}" />
+
+{% endblock %}
+
+
+{% block mainblock %}
+
+<div class="page-content">
+    <div class="container-fluid">
+      <!-- start page title -->
+      <div class="row">
+        <div class="col-12">
+          <div
+            class="page-title-box d-sm-flex align-items-center justify-content-between"
+          >
+            <h4 class="mb-sm-0">Categories</h4>
+
+            <div class="page-title-right">
+              <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item">
+                  <a href="javascript: void(0);">Products</a>
+                </li>
+                <li class="breadcrumb-item active">Categories</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end page title -->
+
+      <div class="row">
+        <div class="col-xxl-12">
+          <div class="row justify-content-between mb-4">
+            <div class="col-xxl-3 col-lg-6">
+              <div class="search-box mb-3 mb-lg-0">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="searchInputList"
+                  placeholder="Search Category..."
+                />
+                <i class="ri-search-line search-icon"></i>
+              </div>
+            </div>
+            <!--end col-->
+            <div class="col-xxl-2 col-lg-6">
+              <select
+                class="form-control"
+                data-choices
+                data-choices-search-false
+                name="choices-single-default"
+                id="idStatus"
+              >
+                <option value="">Status</option>
+                <option value="all" selected>All</option>
+                <option value="Today">Today</option>
+                <option value="Yesterday">Yesterday</option>
+                <option value="Last 7 Days">Last 7 Days</option>
+                <option value="Last 30 Days">Last 30 Days</option>
+                <option value="This Month">This Month</option>
+                <option value="Last Month">Last Month</option>
+              </select>
+            </div>
+            <!--end col-->
+          </div>
+          <!--end row-->
+
+          <div id="category-list" class="gridjs-border-none mb-4">
+            <div role="complementary" class="gridjs gridjs-container" style="width: 100%;">
+                <div class="gridjs-wrapper" style="height: auto;">
+                    <table role="grid" class="gridjs-table" style="height: auto;">
+                        <thead class="gridjs-thead">
+                            <tr class="gridjs-tr">
+                                <th data-column-id="#" class="gridjs-th gridjs-th-sort" tabindex="0" style="width: 40px;">
+                                    <div class="gridjs-th-content">#</div><button tabindex="-1"
+                                        aria-label="Sort column ascending" title="Sort column ascending"
+                                        class="gridjs-sort gridjs-sort-neutral"></button>
+                                </th>
+                                <th data-column-id="productName" class="gridjs-th gridjs-th-sort" tabindex="0"
+                                    style="width: 400px;">
+                                    <div class="gridjs-th-content">Category name</div><button tabindex="-1"
+                                        aria-label="Sort column ascending" title="Sort column ascending"
+                                        class="gridjs-sort gridjs-sort-neutral"></button>
+                                </th>
+                                <th data-column-id="stock" class="gridjs-th gridjs-th-sort" tabindex="0"
+                                    style="width: 94px;">
+                                    <div class="gridjs-th-content">Description</div><button tabindex="-1"
+                                        aria-label="Sort column ascending" title="Sort column ascending"
+                                        class="gridjs-sort gridjs-sort-neutral"></button>
+                                </th>
+                                <th data-column-id="action" class="gridjs-th gridjs-th-sort" tabindex="0"
+                                    style="width: 80px;">
+                                    <div class="gridjs-th-content">Action</div><button tabindex="-1"
+                                        aria-label="Sort column ascending" title="Sort column ascending"
+                                        class="gridjs-sort gridjs-sort-neutral"></button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="gridjs-tbody">
+
+                          {% for i in categories %}
+
+                            <tr class="gridjs-tr">
+                                <td data-column-id="#" class="gridjs-td"><span>
+                                        <div class="form-check checkbox-product-list"> <input class="form-check-input"
+                                                type="checkbox" value="1" id="checkbox-1"> <label class="form-check-label"
+                                                for="checkbox-1"></label> </div>
+                                    </span></td>
+                                <td data-column-id="categoryName" class="gridjs-td"><span>
+                                        <div class="d-flex align-items-center">
+                                            
+                                            <div class="flex-grow-1">
+                                                <h6 class="mb-1"><a href="product-create.html"
+                                                        class="d-block text-reset">{{ i.name }}</a></h6>
+                                            </div>
+                                        </div>
+                                    </span></td>
+                                <td data-column-id="description" class="gridjs-td">{{ i.description }}</td>
+                                <td data-column-id="action" class="gridjs-td"><span>
+                                        <div class="text-center dropdown"> 
+                                              <a href="{% url 'product_delete' i.pk %}"
+                                                class="btn btn-primary btn-sm">Edit
+                                              </a>
+                                              <a href="{% url 'category_delete' i.pk %}"
+                                                class="btn btn-danger btn-sm">Delete
+                                              </a>
+                                        </div>
+                                    </span></td>
+                            </tr>
+
+                          {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="gridjs-footer">
+                    <div class="gridjs-pagination">
+                        <div role="status" aria-live="polite" class="gridjs-summary" title="Page 1 of 2">Showing <b>1</b> to
+                            <b>10</b> of <b>12</b> results
+                        </div>
+                        <div class="gridjs-pages"><button tabindex="0" role="button" disabled="" title="Previous"
+                                aria-label="Previous" class="">Previous</button><button tabindex="0" role="button"
+                                class="gridjs-currentPage" title="Page 1" aria-label="Page 1">1</button><button tabindex="0"
+                                role="button" class="" title="Page 2" aria-label="Page 2">2</button><button tabindex="0"
+                                role="button" title="Next" aria-label="Next" class="">Next</button></div>
+                    </div>
+                </div>
+                <div id="gridjs-temp" class="gridjs-temp"></div>
+            </div>
+        </div>
+
+
+          <!--end row-->
+
+          <div class="row" id="pagination-element">
+            <div class="col-lg-12">
+              <div
+                class="pagination-block pagination pagination-separated justify-content-center justify-content-sm-end mb-sm-0"
+              >
+                <div class="page-item">
+                  <a
+                    href="javascript:void(0);"
+                    class="page-link"
+                    id="page-prev"
+                    >←</a
+                  >
+                </div>
+                <span id="page-num" class="pagination"></span>
+                <div class="page-item">
+                  <a
+                    href="javascript:void(0);"
+                    class="page-link"
+                    id="page-next"
+                    >→</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end col-->
+      </div>
+      <!--end row-->
+    </div>
+    <!-- container-fluid -->
+</div>
+
+{% endblock %}
+
+
+{% block footerblock %}
+
+{% endblock %}
