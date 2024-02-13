@@ -14,4 +14,7 @@ urlpatterns = [
     re_path(r'^panel/manager/perms/$', views.manager_perms, name='manager_perms'),
     re_path(r'^panel/manager/perms/delete/(?P<name>.*)/$', views.manager_perms_del, name='manager_perms_del'),
     re_path(r'^panel/manager/perms/create', views.manager_perms_create, name='manager_perms_create'),
+    re_path(r'^panel/user/perms/show/(?P<pk>\d+)/$', views.user_perms_show, name='user_perms_show'),
+    re_path(r'^panel/user/deleteperms/(?P<pk>\d+)/(?P<name>.*)/$', views.delete_user_perms, name='delete_user_perms'),
+    re_path(r'^panel/user/addperms/(?P<pk>\d+)/$', views.add_perms_to_user, name='add_perms_to_user'),
 ]

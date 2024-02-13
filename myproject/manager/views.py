@@ -240,5 +240,82 @@ def manager_perms_create(request):
         return redirect('manager_perms')
 
     return render(request, 'back/manager_perms_create.html', {})
+
+
+def user_perms_show(request, pk):
+
+    # Login Check Start
+    if not request.user.is_authenticated:
+        return redirect('mylogin')
+    # Login Check End
+
+    manager = Manager.objects.get(pk=pk)
+    user = User.objects.get(username=manager.username)
+
+    user_permis_list = Permission.objects.filter(user=user)
+
+
+    perms_list = []
+    for i in user_permis_list:
+        perms_list.append(i.name)
+        print(i.name)
+
+    all_perms = Permission.objects.all()
+
+    print(all_perms, "----------groups_list-------")
+
+    return render(request,'back/user-perms.html', {'perms_list': perms_list, 'all_perms': all_perms, 'pk': pk })
+
     
+
+def delete_user_perms(request, pk, name):
+
+    # Login Check Start
+    if not request.user.is_authenticated:
+        return redirect('mylogin')
+    # Login Check End
+
+    try:
+        manager = Manager.objects.get(pk=pk)
+        user = User.objects.get(username=manager.username)
+
+        permission = Permission.objects.get(name=name)
+        user.user_permissions.remove(permission)
+        if pk:
+            return redirect('user_perms_show', pk)
+    except:
+        error = "Something went Wrong."
+        return render(request,'back/error.html', {'error': error})
+
+
+def add_perms_to_user(request, pk):
+
+    # Login Check Start
+    if not request.user.is_authenticated:
+        return redirect('mylogin')
+    # Login Check End
+    if request.method == 'POST':
+        print("In Post-------Section---------")
+        gname = request.POST.get('gname')
+        perms = Permission.objects.get(name=gname)
+
+        manager = Manager.objects.get(pk=pk)
+        user = User.objects.get(username=manager.username)
+        user.user_permissions.add(perms)
+        return redirect('user_perms_show', pk=pk)
     
+    if pk:
+        manager = Manager.objects.get(pk=pk)
+        user = User.objects.get(username=manager.username)
+
+        user_permis_list = Permission.objects.filter(user=user)
+
+
+        perms_list = []
+        for i in user_permis_list:
+            perms_list.append(i.name)
+            print(i.name)
+
+        all_perms = Permission.objects.all()
+        return render(request, 'back/user-perms-add.html', {'all_perms': all_perms, 'pk': pk})
+

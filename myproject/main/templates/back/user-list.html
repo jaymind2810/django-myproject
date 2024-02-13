@@ -241,7 +241,10 @@
                                         <td>
                                             <div class="d-flex gap-2">
                                                 <div class="edit">
-                                                    <a class="btn btn-sm btn-ghost-info btn-icon edit-item-btn" type="button" href="{% url 'user_groups_show' i.pk %}">Groups</a>
+                                                    <a class="btn btn-sm btn-ghost-info edit-item-btn" type="button" href="{% url 'user_groups_show' i.pk %}">Groups</a>
+                                                </div>
+                                                <div class="edit">
+                                                    <a class="btn btn-sm btn-ghost-info edit-item-btn" type="button" href="{% url 'user_perms_show' i.pk %}">Permission</a>
                                                 </div>
                                                 <div class="remove">
                                                     <a href="{% url 'user_delete' i.pk %}" class="btn btn-sm btn-ghost-danger btn-icon remove-item-btn"><i class="ph-trash"></i></a>

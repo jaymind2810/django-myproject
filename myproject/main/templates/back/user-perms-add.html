@@ -1,0 +1,87 @@
+{% extends 'back/master.html' %}
+{% load static %}
+
+{% block headblock%}
+  <title> User Permission Add | Home</title>
+
+  <!-- Sweet Alert css -->
+  <link href="{% static 'back/assets/libs/sweetalert2/sweetalert2.min.css' %}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+
+{% block mainblock %}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">Permissions List</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Permissions</a></li>
+                            <li class="breadcrumb-item active">Permissions List</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="row">
+            <div class="col-xxl-4 col-lg-4">
+                <div class="card">
+                  <div class="card-header">
+                    <h6 class="card-title mb-0">Add Permission</h6>
+                  </div>
+                  <div class="card-body">
+                    <form href="{% url 'add_perms_to_user' pk %}" method="post" enctype="multipart/form-data" class="" >
+                      {% csrf_token %}
+                      <div class="row">
+                        <div class="col-xxl-12 col-lg-6 mb-3">
+                            <div class="d-flex align-items-start">
+                              <div class="flex-grow-1">
+                                <label class="form-label">All Permissions</label>
+                              </div>
+                            </div>
+                            <div>
+                              <select class="form-select" id="gname" name="gname">
+                                {% for i in all_perms %}
+                                <option value="{{ i.name }}">{{ i.name }}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                            <div class="error-msg mt-1">
+                              Please select a group.
+                            </div>
+                          </div>
+                        <div class="col-xxl-12">
+                          <div class="text-end">
+                            <button type="submit" value="submit" class="btn btn-success">
+                              Add Group
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+            </div>
+            
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+
+{% endblock %}
+
+
+{% block footerblock %}
+
+{% endblock %}
