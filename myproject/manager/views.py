@@ -265,7 +265,6 @@ def user_perms_show(request, pk):
     print(all_perms, "----------groups_list-------")
 
     return render(request,'back/user-perms.html', {'perms_list': perms_list, 'all_perms': all_perms, 'pk': pk })
-
     
 
 def delete_user_perms(request, pk, name):
@@ -318,4 +317,69 @@ def add_perms_to_user(request, pk):
 
         all_perms = Permission.objects.all()
         return render(request, 'back/user-perms-add.html', {'all_perms': all_perms, 'pk': pk})
+
+
+def groups_perms_show(request, name):
+
+    # Login Check For Master User
+    perm = 0
+    for i in request.user.groups.all():
+        if i.name == 'masteruser' : perm = 1
+
+    if perm == 0:
+        error = "You are not alloweded."
+        return render(request,'back/error.html', {'error': error})
+    # Login Check End
+
+
+    group = Group.objects.get(name=name)
+    perms_list = group.permissions.all()
+
+    print(perms_list, "----------groups_list-------")
+
+    return render(request,'back/groups-perms.html', {'perms_list': perms_list, 'gname':name})
+
+def delete_group_perms(request, gname, name):
+
+    # Login Check Start
+    if not request.user.is_authenticated:
+        return redirect('mylogin')
+    # Login Check End
+
+    try:
+
+        perms= Permission.objects.get(name=name)
+        group = Group.objects.get(name=gname)
+        
+        group.permissions.remove(perms)
+
+        if gname:
+            return redirect('groups_perms_show', name=gname)
+    except:
+        error = "Something went Wrong."
+        return render(request,'back/error.html', {'error': error})
+    
+
+def add_perms_to_group(request, gname):
+
+    # Login Check Start
+    if not request.user.is_authenticated:
+        return redirect('mylogin')
+    # Login Check End
+    if request.method == 'POST':
+        print("In Post-------Section---------")
+        perms_name = request.POST.get('name')
+        print(perms_name, "----Permission Name------")
+        perms= Permission.objects.get(name=perms_name)
+        group = Group.objects.get(name=gname)
+        group.permissions.add(perms)
+        if gname:
+            return redirect('groups_perms_show', name=gname)
+    
+    if gname:
+        
+        all_perms = Permission.objects.all()
+        
+        return render(request,'back/groups-perms-add.html', {'all_perms': all_perms, 'gname':gname})
+
 
