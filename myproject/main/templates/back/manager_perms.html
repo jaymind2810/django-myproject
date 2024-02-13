@@ -1,0 +1,146 @@
+{% extends 'back/master.html' %}
+{% load static %}
+
+{% block headblock%}
+  <title> Manager Permission | Home</title>
+
+  <!-- Sweet Alert css-->
+  <link href="{% static 'back/assets/libs/sweetalert2/sweetalert2.min.css' %}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+
+{% block mainblock %}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">Permissions List</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Permissions</a></li>
+                            <li class="breadcrumb-item active">Permission List</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="row">
+            
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row g-lg-2 g-4">
+                            <div class="col-lg-3">
+                                <div class="search-box">
+                                    <input type="text" class="form-control search" placeholder="Search for users...">
+                                    <i class="ri-search-line search-icon"></i>
+                                </div>
+                            </div>
+                            <div class="col-lg-auto col-sm-3 ms-auto">
+                                <a href="{% url 'manager_perms_create' %}" type="button" class="btn btn-primary w-100 add-btn">
+                                    Add Permission
+                                </a>
+                            </div>
+                            <div class="col-lg-auto col-sm-9">
+                                <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="idStatus">
+                                    <option value="all">All</option>
+                                    <option value="Today">Today</option>
+                                    <option value="Yesterday">Yesterday</option>
+                                    <option value="Last 7 Days">Last 7 Days</option>
+                                    <option value="Last 30 Days">Last 30 Days</option>
+                                    <option value="This Month" selected>This Month</option>
+                                    <option value="Last Month">Last Month</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive table-card mb-1">
+                            <table class="table align-middle table-nowrap" id="customerTable">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col" style="width: 50px;">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="checkAll" value="option">
+                                            </div>
+                                        </th>
+                                        <th class="sort desc" data-sort="user_name">Permission Name</th>
+                                        <!-- <th class="sort" data-sort="email_id">Email</th> -->
+                                        <th  data-sort="action">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list form-check-all">
+                                    {% for i in perms %}
+                                    <tr>
+                                        <th scope="row">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="chk_child" value="option1">
+                                            </div>
+                                        </th>
+                                        <!-- <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#TBT012410122101</a></td> -->
+                                        <td class="user_name">
+                                            <span class="user-name">{{ i.name }}</span>
+                                        </td>
+                                        <!-- <td class="email_id">{{ i.email }}</td> -->
+                                        <td>
+                                            <div class="d-flex gap-2">
+                                                
+                                                <div class="remove">
+                                                    <a href="{% url 'manager_perms_del' i.name %}" class="btn btn-sm btn-ghost-danger btn-icon remove-item-btn"><i class="ph-trash"></i></a>
+                                                    <!-- <button class="btn btn-sm btn-ghost-danger btn-icon remove-item-btn" type="button" href="{% url 'user_delete' i.pk %}"><i class="ph-trash"></i></button> -->
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    
+                                </tbody>
+                            </table>
+                            <div class="noresult" style="display: none">
+                                <div class="text-center">
+                                    <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#121331,secondary:#08a88a" style="width:75px;height:75px"></lord-icon>
+                                    <h5 class="mt-2">Sorry! No Result Found</h5>
+                                    <p class="text-muted mb-0">We've searched more than 150+ Orders We did not find any orders for you search.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                        <div class="d-flex justify-content-end">
+                            <div class="pagination-wrap hstack gap-2">
+                                <a class="page-item pagination-prev disabled" href="#">
+                                    <i class="mdi mdi-chevron-left align-middle me-1"></i> Previous</a>
+                                </a>
+                                <ul class="pagination listjs-pagination mb-0"></ul>
+                                <a class="page-item pagination-next" href="#">
+                                    Next <i class="mdi mdi-chevron-right align-middle ms-1"></i></a>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+
+{% endblock %}
+
+
+{% block footerblock %}
+
+{% endblock %}

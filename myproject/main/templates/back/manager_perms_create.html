@@ -1,0 +1,89 @@
+{% extends 'back/master.html' %}
+{% load static %}
+
+{% block headblock%}
+  <title> Manager Permission | Home</title>
+
+  <!-- Sweet Alert css-->
+  <link href="{% static 'back/assets/libs/sweetalert2/sweetalert2.min.css' %}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+
+{% block mainblock %}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">Permission Create</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Permission</a></li>
+                            <li class="breadcrumb-item active">Permission Create</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="row">
+            <div class="col-xxl-4 col-lg-4">
+                <div class="card">
+                  <div class="card-header">
+                    <h6 class="card-title mb-0">Create Permission</h6>
+                  </div>
+                  <div class="card-body">
+                    <form href="{% url 'manager_group_create' %}" method="post" class="" >
+                      {% csrf_token %}
+                      <div class="row">
+                        <div class="col-xxl-12 col-lg-6">
+                          <div class="mb-3">
+                            <label for="categoryName" class="form-label">Permission Name<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Enter Permission Name" required/>
+                            <div class="invalid-feedback">
+                              Please enter a permission name.
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xxl-12 col-lg-6">
+                            <div class="mb-3">
+                              <label for="categoryName" class="form-label">Permission Code Name<span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" name="codename" id="codename" placeholder="Enter Permission Code Name" required/>
+                              <div class="invalid-feedback">
+                                Please enter a permission code name.
+                              </div>
+                            </div>
+                          </div>
+                        <div class="col-xxl-12">
+                          <div class="text-end">
+                            <button type="submit" value="submit" class="btn btn-success">
+                              Add Group
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <!-- end card -->
+            </div>
+
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+
+{% endblock %}
+
+
+{% block footerblock %}
+
+{% endblock %}

@@ -4,6 +4,7 @@ from main.models import Main
 from django.core.files.storage import FileSystemStorage
 import datetime
 from django.contrib.auth.models import User, Group, Permission
+from django.contrib.contenttypes.models import ContentType
 # Create your views here.
 
 
@@ -169,10 +170,75 @@ def delete_user_from_groups(request, pk, name):
     except:
         error = "Something went Wrong."
         return render(request,'back/error.html', {'error': error})
-
-
     
 
+def manager_perms(request):
+
+    # Login Check For Master User
+    perm = 0
+    for i in request.user.groups.all():
+        if i.name == 'masteruser' : perm = 1
+
+    if perm == 0:
+        error = "You are not alloweded."
+        return render(request,'back/error.html', {'error': error})
+
+
+    # Login Check End
+
+    perms = Permission.objects.all()
+    print(perms, "============Permisssionfooooooof--------")
+
+    return render(request, 'back/manager_perms.html', {'perms': perms})
+
+def manager_perms_del(request, name):
     
+    # Login Check For Master User
+    perm = 0
+    for i in request.user.groups.all():
+        if i.name == 'masteruser' : perm = 1
+
+    if perm == 0:
+        error = "You are not alloweded."
+        return render(request,'back/error.html', {'error': error})
+
+
+    # Login Check End
+    perms = Permission.objects.filter(name=name)
+    perms.delete()
+
+    return redirect('manager_perms')
+
+def manager_perms_create(request):
+
+    print("Herer--------In Create Perms functiona ------------")
+
+    # Login Check Start
+    if not request.user.is_authenticated:
+        return redirect('mylogin')
+    # Login Check End
+
+    if request.method == 'POST':
+        print("Herssssssrrrrr")
+        name = request.POST.get('name')
+        codename = request.POST.get('codename')
+
+        if codename == "":
+            print("All Fields are required.")
+            error = "All Fields are required."
+            return render(request,'back/error.html', {'error': error})
+        if len(Permission.objects.filter(codename=codename)) != 0:
+            error = "You entered same code Permssion."
+            return render(request,'back/error.html', {'error': error})
+        
+
+        content_type = ContentType.objects.get(app_label='main', model='main')
+        print(content_type, "--------ContentType-------------")
+        permission = Permission.objects.create(codename=codename, name=name, content_type=content_type)
+
+        # permission.save()
+        return redirect('manager_perms')
+
+    return render(request, 'back/manager_perms_create.html', {})
     
     
