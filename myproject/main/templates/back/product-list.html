@@ -733,15 +733,21 @@
                                         aria-label="Sort column ascending" title="Sort column ascending"
                                         class="gridjs-sort gridjs-sort-neutral"></button>
                                 </th>
-                                <!-- <th data-column-id="orders" class="gridjs-th gridjs-th-sort" tabindex="0"
+                                <th data-column-id="Status" class="gridjs-th gridjs-th-sort" tabindex="0"
                                     style="width: 84px;">
-                                    <div class="gridjs-th-content">Orders</div><button tabindex="-1"
-                                        aria-label="Sort column ascending" title="Sort column ascending"
+                                    <div class="gridjs-th-content">Status</div><button tabindex="-1"
+                                        aria-label="Status" title="Status"
                                         class="gridjs-sort gridjs-sort-neutral"></button>
-                                </th> -->
+                                </th>
                                 <th data-column-id="publish" class="gridjs-th gridjs-th-sort" tabindex="0"
                                     style="width: 120px;">
-                                    <div class="gridjs-th-content">Publish</div><button tabindex="-1"
+                                    <div class="gridjs-th-content">Create By</div><button tabindex="-1"
+                                        aria-label="Sort column ascending" title="Sort column ascending"
+                                        class="gridjs-sort gridjs-sort-neutral"></button>
+                                </th>
+                                <th data-column-id="publish" class="gridjs-th gridjs-th-sort" tabindex="0"
+                                    style="width: 120px;">
+                                    <div class="gridjs-th-content">Publish Date</div><button tabindex="-1"
                                         aria-label="Sort column ascending" title="Sort column ascending"
                                         class="gridjs-sort gridjs-sort-neutral"></button>
                                 </th>
@@ -785,32 +791,28 @@
                                 <td data-column-id="price" class="gridjs-td"><span>
                                         <div>${{ i.amount }} <span class="text-muted fs-14"><del>$354.99</del></span></div>
                                     </span></td>
-                                <!-- <td data-column-id="orders" class="gridjs-td">48</td> -->
+                                {% if i.act == 0 %}
+                                <td data-column-id="status" class="gridjs-td">UnPublish</td>
+                                {% elif i.act == 1 %}
+                                <td data-column-id="status" class="gridjs-td">Publish</td>
+                                {% endif %}
+                                <td data-column-id="publish" class="gridjs-td">{{ i.create_by }}</td>
                                 <td data-column-id="publish" class="gridjs-td">{{ i.date }}</td>
                                 <td data-column-id="action" class="gridjs-td"><span>
                                         <div class="text-center dropdown"> 
-                                              <!-- <a href="javascript:void(0);"
-                                                class="btn btn-ghost-primary btn-icon btn-sm" data-bs-toggle="dropdown"
-                                                aria-expanded="false"><i class="mdi mdi-dots-horizontal"></i>
-                                              </a> -->
 
                                               <a href="{% url 'product_edit' i.pk %}"
-                                                class="btn btn-primary btn-sm">Edit
+                                                class="btn btn-sm btn-ghost-primary remove-item-btn">Edit
                                               </a>
                                               <a href="{% url 'product_delete' i.pk %}"
-                                                class="btn btn-danger btn-sm">Delete
+                                                class="btn btn-sm btn-ghost-danger remove-item-btn">Delete
                                               </a>
-                                            <!-- <ul class="dropdown-menu dropdown-menu-end">
-                                                <li> <a class="dropdown-item" onclick="editProductList(1)"
-                                                        href="product-create.html"><i
-                                                            class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                        Edit</a> </li>
-                                                <li> <a class="dropdown-item remove-list" onclick="removeItem(1)"
-                                                        data-bs-toggle="modal" href="#removeItemModal"><i
-                                                            class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>Delete</a>
-                                                </li>
-                                            </ul> -->
-                                        </div>
+                                              {% if perms.main.masteruser %}
+                                              <a href="{% url 'product_publish' i.pk %}"
+                                                class="btn btn-sm btn-ghost-primary remove-item-btn">Publish / Unpublish
+                                              </a>
+                                              {% endif %}
+                                        </div> 
                                     </span></td>
                             </tr>
 

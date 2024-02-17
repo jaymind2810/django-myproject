@@ -13,6 +13,8 @@ class Product(models.Model):
     picurl = models.TextField(default="-")
     date = models.CharField(max_length=15)
     time = models.CharField(max_length=12, default="00:00")
+    act = models.IntegerField(default=0)
+    create_by = models.CharField(max_length=128, default="-")
 
     def __str__(self):
         return self.name

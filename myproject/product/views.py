@@ -22,9 +22,16 @@ def product_list(request):
         return redirect('mylogin')
     # Login Check End
 
-    # site = Main.objects.get(pk=2)
-    products = Product.objects.all()
+    perm = 0
+    for i in request.user.groups.all():
+        if i.name == 'masteruser' : perm = 1
 
+    if perm == 0:
+        products = Product.objects.filter(create_by=request.user)
+    elif perm == 1:
+        products = Product.objects.all()
+
+    
     return render(request, 'back/product-list.html', {'products': products})
 
 
@@ -69,7 +76,7 @@ def product_create(request):
 
             if str(myfile.content_type).startswith("image"):
                 if myfile.size < 5000000:
-                    b = Product(name=product_name, short_text=short_text, amount=amount, description="--", picname =filename, picurl=url, date=today, time=time)
+                    b = Product(name=product_name, short_text=short_text, amount=amount, description="--", picname =filename, picurl=url, create_by=request.user, date=today, time=time)
                     b.save()
                     return redirect('product_list')
                 else:
@@ -91,6 +98,16 @@ def product_edit(request, pk):
     if not request.user.is_authenticated:
         return redirect('mylogin')
     # Login Check End
+
+    perm = 0
+    for i in request.user.groups.all():
+        if i.name == 'masteruser' : perm = 1
+
+    if perm == 0:
+        a = Product.objects.get(pk=pk).create_by
+        if str(a) != str(request.user) :
+            error = "Access Denied."
+            return render(request,'back/error.html', {'error': error})
 
     # site = Main.objects.get(pk=2)
     if len(Product.objects.filter(pk=pk)) == 0:
@@ -152,6 +169,16 @@ def product_delete(request, pk):
         return redirect('mylogin')
     # Login Check End
 
+    perm = 0
+    for i in request.user.groups.all():
+        if i.name == 'masteruser' : perm = 1
+
+    if perm == 0:
+        a = Product.objects.get(pk=pk).create_by
+        if str(a) != str(request.user) :
+            error = "Access Denied."
+            return render(request,'back/error.html', {'error': error})
+
     try:
         p = Product.objects.filter(pk=pk)
 
@@ -166,3 +193,23 @@ def product_delete(request, pk):
         return render(request,'back/error.html', {'error': error})
 
     return redirect(product_list)
+
+
+def product_publish(request, pk):
+
+    # Login Check Start
+    if not request.user.is_authenticated:
+        return redirect('mylogin')
+    # Login Check End
+
+    try:
+        p = Product.objects.get(pk=pk)
+        print(p, "----------P---Product -------")
+        p.act = 1
+        p.save()
+        return redirect(product_list)
+    except:
+        error = "Something went Wrong."
+        return render(request,'back/error.html', {'error': error})
+
+    
