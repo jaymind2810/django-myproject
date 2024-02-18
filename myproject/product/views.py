@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Product
 from main.models import Main
+from comment.models import Comment
 from django.core.files.storage import FileSystemStorage
 import datetime
+import random
 # Create your views here.
 
 
@@ -10,8 +12,12 @@ def product_details(request, pk):
 
     site = Main.objects.get(pk=2)
     products = Product.objects.filter(pk=pk)
+    print(pk, "========PK----------")
 
-    return render(request, 'front/product_details.html', {'site': site, 'products': products})
+    comments = Comment.objects.filter(product_id=int(pk))
+    print(comments, "----Comments-----")
+
+    return render(request, 'front/product_details.html', {'site': site, 'products': products, 'comments': comments})
 
 
 
@@ -55,6 +61,10 @@ def product_create(request):
     today = str(year) + "/" + str(month) + "/" + str(day)
     time = str(now.hour) + ":" + str(now.minute)
 
+    date = str(year) + str(month) + str(day)
+    random_int = str(random.randint(1000,9999))
+    rand = date + random_int
+
     # site = Main.objects.get(pk=2)
     if request.method == 'POST':
         print("Herrrrrr")
@@ -76,7 +86,7 @@ def product_create(request):
 
             if str(myfile.content_type).startswith("image"):
                 if myfile.size < 5000000:
-                    b = Product(name=product_name, short_text=short_text, amount=amount, description="--", picname =filename, picurl=url, create_by=request.user, date=today, time=time)
+                    b = Product(name=product_name, short_text=short_text, amount=amount, description="--", picname =filename, picurl=url, create_by=request.user, rand=int(rand), date=today, time=time)
                     b.save()
                     return redirect('product_list')
                 else:

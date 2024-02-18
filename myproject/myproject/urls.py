@@ -16,6 +16,7 @@ urlpatterns = [
     re_path('', include('product.urls')),
     re_path('', include('cat.urls')),
     re_path('', include('manager.urls')),
+    re_path('', include('comment.urls')),
 ]
 
 if settings.DEBUG:

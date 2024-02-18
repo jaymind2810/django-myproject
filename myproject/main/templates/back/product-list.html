@@ -716,7 +716,7 @@
                                         class="gridjs-sort gridjs-sort-neutral"></button>
                                 </th>
                                 <th data-column-id="productName" class="gridjs-th gridjs-th-sort" tabindex="0"
-                                    style="width: 400px;">
+                                    style="width: 200px;">
                                     <div class="gridjs-th-content">Product name</div><button tabindex="-1"
                                         aria-label="Sort column ascending" title="Sort column ascending"
                                         class="gridjs-sort gridjs-sort-neutral"></button>
@@ -724,6 +724,12 @@
                                 <th data-column-id="stock" class="gridjs-th gridjs-th-sort" tabindex="0"
                                     style="width: 94px;">
                                     <div class="gridjs-th-content">Short Text</div><button tabindex="-1"
+                                        aria-label="Sort column ascending" title="Sort column ascending"
+                                        class="gridjs-sort gridjs-sort-neutral"></button>
+                                </th>
+                                <th data-column-id="productName" class="gridjs-th gridjs-th-sort" tabindex="0"
+                                    style="width: 80px;">
+                                    <div class="gridjs-th-content">Random Number</div><button tabindex="-1"
                                         aria-label="Sort column ascending" title="Sort column ascending"
                                         class="gridjs-sort gridjs-sort-neutral"></button>
                                 </th>
@@ -788,6 +794,7 @@
                                         </div>
                                     </span></td>
                                 <td data-column-id="stock" class="gridjs-td">{{ i.short_text }}</td>
+                                <td data-column-id="stock" class="gridjs-td">{{ i.rand }}</td>
                                 <td data-column-id="price" class="gridjs-td"><span>
                                         <div>${{ i.amount }} <span class="text-muted fs-14"><del>$354.99</del></span></div>
                                     </span></td>
