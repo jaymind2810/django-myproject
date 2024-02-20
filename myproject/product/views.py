@@ -5,6 +5,7 @@ from comment.models import Comment
 from django.core.files.storage import FileSystemStorage
 import datetime
 import random
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
 
 
@@ -36,6 +37,18 @@ def product_list(request):
         products = Product.objects.filter(create_by=request.user)
     elif perm == 1:
         products = Product.objects.all()
+
+        paginator = Paginator(products, 2)
+        page = request.GET.get('page')
+
+        try:
+            products = paginator.page(page)
+        
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)
+
+        except PageNotAnInteger:
+            products = paginator.page(1)
 
     
     return render(request, 'back/product-list.html', {'products': products})

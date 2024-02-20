@@ -1,7 +1,7 @@
 # django-myproject
-My project is developed using toner templates.
+My project is developed using templates.
 
 # 1.0
 
 This is initial branch.
-tonner based template is used and using django live project integration.
+Django basic funtionality implemented in project with template.

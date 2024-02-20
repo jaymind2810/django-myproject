@@ -829,14 +829,27 @@
                 </div>
                 <div class="gridjs-footer">
                     <div class="gridjs-pagination">
-                        <div role="status" aria-live="polite" class="gridjs-summary" title="Page 1 of 2">Showing <b>1</b> to
-                            <b>10</b> of <b>12</b> results
+                        <div role="status" aria-live="polite" class="gridjs-summary" title="Page 1 of 2">
+                          <!-- Showing <b>1</b> to<b>10</b> of <b>12</b> results -->
+                          Page {{products.number}} From {{products.paginator.num_pages}}
                         </div>
-                        <div class="gridjs-pages"><button tabindex="0" role="button" disabled="" title="Previous"
-                                aria-label="Previous" class="">Previous</button><button tabindex="0" role="button"
-                                class="gridjs-currentPage" title="Page 1" aria-label="Page 1">1</button><button tabindex="0"
-                                role="button" class="" title="Page 2" aria-label="Page 2">2</button><button tabindex="0"
-                                role="button" title="Next" aria-label="Next" class="">Next</button></div>
+                        <div class="gridjs-pages">
+                          {% if products.has_previous %}
+                          <a href="?page={{products.previous_page_number}}" type="button" tabindex="0" role="button" disabled="" title="Previous" aria-label="Previous" class="btn btn-sm btn-primary">Previous</a>
+                          {% endif %}
+
+                          {% for i in products.paginator.page_range %}
+                            {% if products.number == i %}
+                              <a href="#" type="button" tabindex="0" role="button" class="btn btn-sm btn-primary" title="{{disables}}">{{i}}</a>
+                            {% else %}
+                              <a href="?page={{i}}" tabindex="0" role="button" class="btn btn-sm btn-primary" title="{{i}}">{{i}}</a>
+                            {% endif %}
+                          {% endfor %}
+                          
+                          {% if products.has_next %}
+                          <a href="?page={{products.next_page_number}}" tabindex="0" role="button" title="Next" aria-label="Next" class="btn btn-sm btn-primary">Next</a>
+                          {% endif %}
+                        </div>
                     </div>
                 </div>
                 <div id="gridjs-temp" class="gridjs-temp"></div>
