@@ -5,6 +5,8 @@ from manager.models import Manager
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
+from ipware import get_client_ip
+from ip2geotools.databases.noncommercial import DbIpCity
 # Create your views here.
 
 
@@ -64,9 +66,21 @@ def myregister(request):
             return render(request,'back/error.html', {'error': error})
         
         if len(User.objects.filter(username=utext)) == 0 and len(User.objects.filter(email=uemail)) == 0:
+            print("Here-------------")
+            ip, ip_routable = get_client_ip(request)
+            print(ip, "------Ip-----------")
+            if ip is None:
+                ip = "0.0.0.0"
+
+            try:
+                response = DbIpCity.get(ip, api_key="free")
+                country = response.country + " | " + response.city
+            except:
+                country = "UnKnown"
+            
             user = User.objects.create_user(username=utext, email=uemail, password=password1)
             print(user, "======user")
-            manager = Manager(username=utext, email=uemail, name=utext)
+            manager = Manager(username=utext, email=uemail, name=utext, ip=ip, country=country)
             manager.save()
             return redirect(mylogin)
 
