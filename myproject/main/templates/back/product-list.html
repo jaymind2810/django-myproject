@@ -679,15 +679,33 @@
           <div class="row g-4 mb-4">
             <div class="col-sm-auto">
               <div>
-                <a
-                  href="{% url 'product_create' %}"
-                  class="btn btn-success"
-                  id="addproduct-btn"
-                  ><i class="ri-add-line align-bottom me-1"></i> Add
-                  Product</a
-                >
+                <a href="{% url 'product_create' %}" class="btn btn-success" id="addproduct-btn">
+                  <i class="ri-add-line align-bottom me-1"></i> Add Product
+                </a>
               </div>
             </div>
+            <div class="col-sm-auto">
+              <div>
+                <a href="{% url 'export_products_csv' %}" class="btn btn-success" id="Export Products CSV">
+                  Export Products
+                </a>
+              </div>
+            </div>
+            <form class="col-xxl-4" action="{% url 'import_products_csv' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-sm-auto">
+              <div>
+                <input type="file" class="form-control" name="csv_file" id="csv_file" placeholder="Upload CSV file"/>
+              </div>
+            </div>
+            <div class="col-sm-auto">
+              <div>
+                <button type="submit" class="btn btn-success">
+                  Import Products
+                </button>
+              </div>
+            </div>
+            </form>
             <div class="col-sm">
               <div class="d-flex justify-content-sm-end">
                 <div class="search-box ms-2">
@@ -845,7 +863,7 @@
                               <a href="?page={{i}}" tabindex="0" role="button" class="btn btn-sm btn-primary" title="{{i}}">{{i}}</a>
                             {% endif %}
                           {% endfor %}
-                          
+
                           {% if products.has_next %}
                           <a href="?page={{products.next_page_number}}" tabindex="0" role="button" title="Next" aria-label="Next" class="btn btn-sm btn-primary">Next</a>
                           {% endif %}

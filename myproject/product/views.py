@@ -6,6 +6,8 @@ from django.core.files.storage import FileSystemStorage
 import datetime
 import random
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import csv
+from django.http import HttpResponse
 # Create your views here.
 
 
@@ -236,3 +238,29 @@ def product_publish(request, pk):
         return render(request,'back/error.html', {'error': error})
 
     
+def export_products_csv(request):
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="products.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Title', 'Short Text', 'Amount'])
+
+    for i in Product.objects.all():
+        writer.writerow([i.name, i.short_text, i.amount])
+    
+    return response
+
+def import_products_csv(request):
+
+    if request.method == "POST":
+        print(request.FILES, "=======Files-------")
+        csv_file = request.FILES['csv_file']
+        file_data = csv_file.read().decode("utf-8")
+
+        lines = file_data.split("\n")
+
+        print(lines)
+
+        
+    return redirect('product_list')

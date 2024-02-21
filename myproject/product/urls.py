@@ -10,4 +10,6 @@ urlpatterns = [
     re_path(r'^panel/product/delete/(?P<pk>\d+)/$', views.product_delete, name='product_delete'),
     re_path(r'^panel/product/edit/(?P<pk>\d+)/$', views.product_edit, name='product_edit'),
     re_path(r'^panel/product/publish/(?P<pk>\d+)/$', views.product_publish, name='product_publish'),
+    re_path(r'^panel/product/export/$', views.export_products_csv, name='export_products_csv'),
+    re_path(r'^panel/product/import', views.import_products_csv, name='import_products_csv'),
 ]
