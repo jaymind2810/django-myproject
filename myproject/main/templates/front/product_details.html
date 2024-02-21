@@ -1,6 +1,7 @@
 {% extends 'front/master.html'%}
 {% load extera_auth %}
 {% load static %}
+{% load qr_code %}
 
 {% block headblock%}
   <title>{{ site.name }} | Product Details</title>
@@ -213,6 +214,9 @@
                   wear it with a cool chinos and blazer to dress up
                   <a href="javascript:void(0);" class="link-info">Read More</a>
                 </p> -->
+
+                {% qr_from_text "Hello World!" size="T" %}
+
                 <h5 class="fs-24 mb-4">
                   ${{ i.amount }}
                   <span class="text-muted fs-14"><del>$280.99</del></span>

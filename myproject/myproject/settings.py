@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'manager',
     'comment',
     'django_crontab',
+    'qr_code',
 ]
 
 MIDDLEWARE = [
