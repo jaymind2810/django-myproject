@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from ipware import get_client_ip
 from ip2geotools.databases.noncommercial import DbIpCity
+from django.core.mail import send_mail
+from django.conf import settings
 # Create your views here.
 
 
@@ -48,7 +50,7 @@ def mylogin(request):
             if user != None:
 
                 login(request, user)
-                return redirect('panel') 
+                return redirect('home') 
 
     return render(request, 'front/login.html')
 
@@ -82,6 +84,26 @@ def myregister(request):
             print(user, "======user")
             manager = Manager(username=utext, email=uemail, name=utext, ip=ip, country=country)
             manager.save()
+
+            print("Before Mail000000000000000000000000000")
+
+            to_email = uemail
+            subject = "Account Created."
+            message = "Your Account Success Fully Created."
+            email_from = settings.EMAIL_HOST_USER
+            emails = [to_email]
+            
+            send_mail(subject, message, email_from, emails)
+
+            # send_mail(
+            #     'Subject Here Second Way',
+            #     message,
+            #     'sender@gmail.com',
+            #     [to_email],
+            #     fail_silently=False
+            # )
+            print("After Mail ==========================")
+
             return redirect(mylogin)
 
     return render(request, 'front/register.html')

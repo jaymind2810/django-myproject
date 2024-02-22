@@ -134,3 +134,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CRONJOBS = [
     ('*/5 * * * *', 'main.cron.my_job')
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = '944c3a0bf4b547'
+EMAIL_HOST_PASSWORD = '71420e49395a8d'
+EMAIL_PORT = 587
