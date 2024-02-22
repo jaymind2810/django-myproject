@@ -38,7 +38,12 @@ def product_list(request):
     if perm == 0:
         products = Product.objects.filter(create_by=request.user)
     elif perm == 1:
-        products = Product.objects.all()
+        if request.method == 'POST':
+            txt = request.POST.get('txt')
+            print(txt, "---------Txt--News Paper-------")
+            products = Product.objects.filter(name__contains=txt)
+        else:
+            products = Product.objects.all()
 
         paginator = Paginator(products, 2)
         page = request.GET.get('page')

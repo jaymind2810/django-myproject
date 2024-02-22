@@ -691,7 +691,32 @@
                 </a>
               </div>
             </div>
-            <form class="col-xxl-4" action="{% url 'import_products_csv' %}" method="post" enctype="multipart/form-data">
+            <div class="col-sm-auto">
+            <form action="{% url 'product_list' %}" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+            
+              <div class="d-flex justify-content-sm-end">                
+                <div class="search-box ms-2">
+                  <input
+                    type="text"
+                    class="form-control"
+                    autocomplete="off"
+                    id="txt"
+                    name="txt"
+                    placeholder="Search Products..."
+                  />
+                  <i class="ri-search-line search-icon"></i>
+                </div>
+              </div>
+              <div class="d-flex justify-content-sm-end">
+                <button type="submit" class="btn btn-success">
+                  Submit
+                </button>
+              </div>
+            </form>
+            </div>
+          </div>
+          <!-- <form class="col-xxl-4" action="{% url 'import_products_csv' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="col-sm-auto">
               <div>
@@ -705,22 +730,7 @@
                 </button>
               </div>
             </div>
-            </form>
-            <div class="col-sm">
-              <div class="d-flex justify-content-sm-end">
-                <div class="search-box ms-2">
-                  <input
-                    type="text"
-                    class="form-control"
-                    autocomplete="off"
-                    id="searchProductList"
-                    placeholder="Search Products..."
-                  />
-                  <i class="ri-search-line search-icon"></i>
-                </div>
-              </div>
-            </div>
-          </div>
+          </form> -->
 
           <div id="product-list" class="gridjs-border-none mb-4">
             <div role="complementary" class="gridjs gridjs-container" style="width: 100%;">
